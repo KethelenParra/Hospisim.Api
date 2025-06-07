@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Hospisim.Api.Models.Paciente>
+@{
+    ViewData["Title"] = "Lista de Pacientes";
+}
+<div class="container">
+    <h1>@ViewData["Title"]</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome Completo</th>
+                <th>CPF</th>
+                <th>Data Nasc.</th>
+                <th>Sexo</th>
+                <th>Tipo Sanguíneo</th>
+                <th>Estado Civil</th>
+                <th>Plano Saúde</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model)
+            {
+                <tr>
+                    <td data-label="Nome Completo">@p.NomeCompleto</td>
+                    <td data-label="CPF">@p.CPF</td>
+                    <td data-label="Data Nasc.">@p.DataNascimento:yyyy-MM-dd</td>
+                    <td data-label="Sexo">@p.Sexo</td>
+                    <td data-label="Tipo Sanguíneo">@p.TipoSanguineo</td>
+                    <td data-label="Estado Civil">@p.EstadoCivil</td>
+                    <td data-label="Plano Saúde">@(p.PossuiPlanoSaude ? "Sim" : "Não")</td>
+                    <td class="table-actions">
+                        <a asp-action="Details" asp-route-id="@p.Id">Detalhes</a> |
+                        <a asp-action="Edit" asp-route-id="@p.Id">Editar</a> |
+                        <a asp-action="Delete" asp-route-id="@p.Id">Excluir</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a asp-action="Create" class="btn btn-primary">Novo Paciente</a>
+</div>
