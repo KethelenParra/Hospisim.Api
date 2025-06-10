@@ -1,84 +1,27 @@
 ﻿@model Hospisim.Api.Models.Paciente
-
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalhes do Paciente";
 }
-
-<h1>Details</h1>
-
-<div>
-    <h4>Paciente</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NomeCompleto)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NomeCompleto)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CPF)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CPF)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DataNascimento)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DataNascimento)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Sexo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Sexo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TipoSanguineo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TipoSanguineo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Telefone)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Telefone)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EnderecoCompleto)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EnderecoCompleto)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NumeroCartaoSUS)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NumeroCartaoSUS)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EstadoCivil)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EstadoCivil)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PossuiPlanoSaude)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PossuiPlanoSaude)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="container details-page">
+    <div class="actions-header">
+        <h1>@ViewData["Title"]</h1>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">✏️ Editar</a>
+    </div>
+    <div class="details-card">
+        <h4>Dados Pessoais</h4>
+        <div class="label">Nome Completo</div><div class="value">@Model.NomeCompleto</div>
+        <div class="label">CPF</div><div class="value">@Model.CPF.ToCPFFormat()</div>
+        <div class="label">Data de Nascimento</div><div class="value">@Model.DataNascimento.ToString("dd/MM/yyyy")</div>
+        <div class="label">Sexo</div><div class="value">@Model.Sexo</div>
+        <div class="label">Tipo Sanguíneo</div><div class="value">@Model.TipoSanguineo.GetDisplayName()</div>
+        <div class="label">Telefone</div><div class="value">@Model.Telefone</div>
+        <div class="label">E-mail</div><div class="value"><a href="mailto:@Model.Email">@Model.Email</a></div>
+        <div class="label">Endereço Completo</div><div class="value">@Model.EnderecoCompleto</div>
+        <div class="label">Nº Cartão do SUS</div><div class="value">@Model.NumeroCartaoSUS</div>
+        <div class="label">Estado Civil</div><div class="value">@Model.EstadoCivil</div>
+        <div class="label">Possui Plano de Saúde?</div><div class="value">@(Model.PossuiPlanoSaude ? "Sim" : "Não")</div>
+    </div>
+    <div class="actions-footer-details">
+        <a asp-action="Index" class="btn btn-secondary">⬅️ Voltar</a>
+    </div>
 </div>

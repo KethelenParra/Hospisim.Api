@@ -1,15 +1,19 @@
 ﻿@model IEnumerable<Hospisim.Api.Models.Paciente>
 @{
-    ViewData["Title"] = "Lista de Pacientes";
+    ViewData["Title"] = "Pacientes";
 }
+@Html.AntiForgeryToken()
 <div class="container">
-    <h1>@ViewData["Title"]</h1>
+    <div class="header-row">
+        <h1>@ViewData["Title"]</h1>
+        <a asp-action="Create" class="btn btn-primary">Novo Paciente</a>
+    </div>
     <table>
         <thead>
             <tr>
                 <th>Nome Completo</th>
                 <th>CPF</th>
-                <th>Data Nasc.</th>
+                <th>Data Nascimento</th>
                 <th>Sexo</th>
                 <th>Tipo Sanguíneo</th>
                 <th>Estado Civil</th>
@@ -20,22 +24,113 @@
         <tbody>
             @foreach (var p in Model)
             {
-                <tr>
+                <tr id="paciente-row-@p.Id">
                     <td data-label="Nome Completo">@p.NomeCompleto</td>
-                    <td data-label="CPF">@p.CPF</td>
-                    <td data-label="Data Nasc.">@p.DataNascimento:yyyy-MM-dd</td>
+                    <td data-label="CPF">@p.CPF.ToCPFFormat()</td>
+                    <td data-label="Data Nascimento">@p.DataNascimento.ToString("dd/MM/yyyy")</td>
                     <td data-label="Sexo">@p.Sexo</td>
-                    <td data-label="Tipo Sanguíneo">@p.TipoSanguineo</td>
+                    <td data-label="Tipo Sanguíneo">@p.TipoSanguineo.GetDisplayName()</td>
                     <td data-label="Estado Civil">@p.EstadoCivil</td>
                     <td data-label="Plano Saúde">@(p.PossuiPlanoSaude ? "Sim" : "Não")</td>
                     <td class="table-actions">
-                        <a asp-action="Details" asp-route-id="@p.Id">Detalhes</a> |
-                        <a asp-action="Edit" asp-route-id="@p.Id">Editar</a> |
-                        <a asp-action="Delete" asp-route-id="@p.Id">Excluir</a>
+                        <a asp-action="Details" asp-route-id="@p.Id" title="Detalhes">👁️</a>
+                        <a asp-action="Edit" asp-route-id="@p.Id" title="Editar">✏️</a>
+                        <a href="#" class="delete-btn"
+                           data-patient-id="@p.Id"
+                           data-patient-name="@p.NomeCompleto" title="Excluir">🗑️</a>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-    <a asp-action="Create" class="btn btn-primary">Novo Paciente</a>
 </div>
+
+<div id="deleteConfirmationModal" class="modal-container" style="display: none;">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Confirmar Exclusão</h3>
+            <button type="button" class="close-modal-btn">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>Você tem certeza que deseja excluir permanentemente o paciente <strong id="patientNameToDelete"></strong>?</p>
+            <p><strong>Esta ação não pode ser desfeita.</strong></p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary close-modal-btn">Cancelar</button>
+            <button type="button" id="confirmDeleteBtn" class="btn btn-danger">Sim, Excluir</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const modal = document.getElementById('deleteConfirmationModal');
+            const confirmBtn = document.getElementById('confirmDeleteBtn');
+            const patientNameToDelete = document.getElementById('patientNameToDelete');
+            const closeButtons = document.querySelectorAll('.close-modal-btn');
+            let patientIdToDelete = null;
+
+            // Função para abrir o modal
+            function openModal(id, name) {
+                patientIdToDelete = id;
+                patientNameToDelete.textContent = name;
+                modal.style.display = 'flex';
+            }
+
+            // Função para fechar o modal
+            function closeModal() {
+                patientIdToDelete = null;
+                modal.style.display = 'none';
+            }
+
+            // Adicionar evento de clique para todos os botões de exclusão
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    const id = this.getAttribute('data-patient-id');
+                    const name = this.getAttribute('data-patient-name');
+                    openModal(id, name);
+                });
+            });
+
+            // Adicionar evento de clique para os botões de fechar/cancelar
+            closeButtons.forEach(button => {
+                button.addEventListener('click', closeModal);
+            });
+
+            // Adicionar evento de clique para o botão de confirmação
+            confirmBtn.addEventListener('click', function () {
+                if (!patientIdToDelete) return;
+
+                const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+                fetch(`/Pacientes/Delete/${patientIdToDelete}`, {
+                    method: 'POST',
+                    headers: {
+                        'RequestVerificationToken': token,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        const rowToRemove = document.getElementById(`paciente-row-${patientIdToDelete}`);
+                        if (rowToRemove) {
+                            rowToRemove.remove();
+                        }
+                        closeModal();
+                    } else {
+                        alert('Ocorreu um erro ao tentar excluir o paciente.');
+                        closeModal();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Ocorreu um erro de rede.');
+                    closeModal();
+                });
+            });
+        });
+    </script>
+}

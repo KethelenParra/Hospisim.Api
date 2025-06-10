@@ -136,13 +136,15 @@ namespace Hospisim.Api.Controllers
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var paciente = await _context.Pacientes.FindAsync(id);
-            if (paciente != null)
+            if (paciente == null)
             {
-                _context.Pacientes.Remove(paciente);
+                return NotFound();
             }
 
+            _context.Pacientes.Remove(paciente);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return Ok(); // Retorna sucesso para o JavaScript
         }
 
         private bool PacienteExists(Guid id)

@@ -1,153 +1,103 @@
-﻿/* Layout geral */
+﻿/* =====================
+   Global Styles
+   ===================== */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f5f7fa;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f5f7fa;
     margin: 0;
-    padding: 20px;
     color: #333;
 }
 
-h1 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-    color: #2c3e50;
-    text-align: center;
-}
-
-/* Container */
 .container {
-    max-width: 960px;
-    margin: 0 auto;
-    background: #fff;
+    max-width: 1300px;
+    width: 100%;
+    margin: 5rem auto;
+    background-color: #fff;
     padding: 1.5rem;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
-/* Tabela de listagem */
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+    .header-row h1 {
+        margin: 0;
+    }
+
 table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
     margin-bottom: 1.5rem;
+    table-layout: auto;
 }
 
 thead th {
     background: linear-gradient(90deg, #2980b9, #3498db);
     color: #fff;
-    font-weight: 600;
-    padding: 12px;
-    text-align: left;
-    border: none;
+    padding: 16px 24px;
+    text-align: center;
 }
 
-tbody tr {
-    transition: background 0.25s ease;
+tbody tr:nth-child(odd) {
+    background-color: #f9fbfc;
 }
 
-    tbody tr:nth-child(odd) {
-        background: #f9fbfc;
-    }
-
-    tbody tr:hover {
-        background: #e1eef7;
-    }
+tbody tr:hover {
+    background-color: #e1eef7;
+}
 
 td {
-    padding: 12px;
+    padding: 16px 24px;
     border-bottom: 1px solid #e0e4e8;
+    vertical-align: middle;
+    text-align: center;
 }
 
-/* Botões */
+.table-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+    .table-actions a {
+        color: #3498db;
+        text-decoration: none;
+        font-size: 1.25rem;
+        display: inline-block;
+    }
+
+        .table-actions a:last-child {
+            margin-right: 0;
+        }
+
+        .table-actions a:last-child {
+            margin-right: 0;
+        }
+
 .btn {
-    display: inline-block;
     font-weight: 500;
-    text-decoration: none;
     padding: 0.5rem 1rem;
     border-radius: 4px;
-    transition: background 0.2s ease;
-    margin-right: 0.5rem;
+    text-decoration: none;
+    display: inline-block;
 }
 
 .btn-primary {
-    background: #3498db;
+    background-color: #3498db;
     color: #fff;
 }
 
     .btn-primary:hover {
-        background: #238ac9;
+        background-color: #238ac9;
     }
-
-.btn-success {
-    background: #2ecc71;
-    color: #fff;
-}
-
-    .btn-success:hover {
-        background: #28b765;
-    }
-
-.btn-danger {
-    background: #e74c3c;
-    color: #fff;
-}
-
-    .btn-danger:hover {
-        background: #cf4336;
-    }
-
-.btn-secondary {
-    background: #95a5a6;
-    color: #fff;
-}
-
-    .btn-secondary:hover {
-        background: #7f8c8d;
-    }
-
-/* Formulários */
-.form-group {
-    margin-bottom: 1rem;
-}
-
-    .form-group label {
-        display: block;
-        margin-bottom: 0.3rem;
-        font-weight: 500;
-    }
-
-.form-control, select.form-control {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ccd1d9;
-    border-radius: 4px;
-    font-size: 1rem;
-    transition: border-color 0.2s ease;
-}
-
-    .form-control:focus, select.form-control:focus {
-        outline: none;
-        border-color: #3498db;
-        box-shadow: 0 0 0 2px rgba(52,152,219,0.2);
-    }
-
-.text-danger {
-    color: #e74c3c;
-    font-size: 0.875rem;
-    margin-top: 0.25rem;
-}
-
-/* Links de ação na tabela */
-.table-actions a {
-    color: #3498db;
-    font-size: 0.9rem;
-}
-
-    .table-actions a:hover {
-        text-decoration: underline;
-    }
-
-/* Responsividade */
+/* Responsive */
 @media (max-width: 768px) {
     table, thead, tbody, th, td, tr {
         display: block;
@@ -175,4 +125,343 @@ td {
             font-weight: 600;
             white-space: nowrap;
         }
+}
+
+/* =====================
+   Details Page
+   ===================== */
+.details-page .actions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+    .details-page .actions-header h1 {
+        margin: 0;
+        color: #1f3a57;
+    }
+
+    .details-page .actions-header .btn {
+        background-color: #3498db;
+        color: #fff;
+    }
+
+.details-page .details-card {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 1rem 2rem;
+    background: #eaf0f6;
+    padding: 1.5rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+}
+
+    .details-page .details-card h4 {
+        grid-column: 1 / -1;
+        margin: 0 0 1rem;
+        color: #1f3a57;
+        font-size: 1.25rem;
+    }
+
+.details-page .label {
+    font-weight: 600;
+    color: #1f3a57;
+    align-self: center;
+}
+
+.details-page .value {
+    color: #34495e;
+    align-self: center;
+}
+
+.details-page .actions-footer-details {
+    text-align: right;
+}
+
+    .details-page .actions-footer-details .btn-secondary {
+        background-color: #95a5a6;
+        color: #fff;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+        .details-page .actions-footer-details .btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+
+/* =====================
+   Form Page (Create/Edit)
+   ===================== */
+
+/* Contêiner principal do formulário com o estilo de cartão */
+.form-container {
+    max-width: 1100px;
+}
+
+.form-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e0e4e8;
+}
+
+    .form-header h1 {
+        margin: 0;
+        color: #1f3a57;
+        font-size: 1.75rem;
+    }
+
+/* Define o layout de grid para os campos do formulário */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Classe para fazer um campo ocupar as duas colunas */
+.grid-col-span-2 {
+    grid-column: span 2;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+    /* NOVO: Classe para forçar um campo a ter largura total quando desejado */
+    .form-group.w-full .form-control {
+        max-width: none; /* Remove a largura máxima apenas para este campo */
+    }
+
+/* Container para a linha com 3 campos */
+.multi-field-row {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-end;
+}
+
+    .multi-field-row > .form-group {
+        flex: 1;
+    }
+
+    .multi-field-row .form-check {
+        padding-top: 0;
+        margin-bottom: 0.5rem;
+    }
+
+.control-label {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #34495e;
+    font-size: 0.9rem;
+}
+
+/* Estilo unificado para todos os inputs e selects */
+.form-control {
+    width: 100%;
+    /* MUDANÇA PRINCIPAL: Adiciona uma largura máxima para diminuir os campos */
+    max-width: 500px;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    background-color: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+    .form-control:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
+        outline: none;
+    }
+
+/* Estilo específico para o checkbox */
+.form-check {
+    display: flex;
+    align-items: center;
+}
+
+.form-check-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: normal;
+}
+
+.form-check-input {
+    width: 1.25em;
+    height: 1.25em;
+}
+
+/* Contêiner para os botões de ação */
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+/* Estilo para o botão secundário (Voltar) */
+.btn-secondary {
+    background-color: #e0e4e8;
+    color: #34495e;
+    border: 1px solid #ced4da;
+}
+
+    .btn-secondary:hover {
+        background-color: #c8d0d8;
+    }
+
+/* Ajustes para telas menores (celulares) */
+@media (max-width: 992px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .grid-col-span-2 {
+        grid-column: span 1;
+    }
+
+    .multi-field-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1.5rem;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+    /* Em telas pequenas, todos os campos voltam a ter 100% de largura */
+    .form-control {
+        max-width: none;
+    }
+}
+
+/* =====================
+   Form Page (Delete)
+   ===================== */
+
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal-content {
+    position: relative;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 100%;
+    max-width: 500px;
+    z-index: 1001;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+    .modal-header h3 {
+        margin: 0;
+        font-size: 1.5rem;
+        color: #343a40;
+    }
+
+.close-modal-btn {
+    border: none;
+    background: transparent;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #6c757d;
+    cursor: pointer;
+}
+
+.modal-body {
+    padding: 1.5rem;
+    line-height: 1.6;
+}
+
+/* ===== INÍCIO DAS ALTERAÇÕES NO FOOTER E BOTÕES ===== */
+
+.modal-footer {
+    display: flex;
+    /* 1. Alinha um botão em cada ponta */
+    justify-content: space-between;
+    padding: 1.5rem;
+    border-top: 1px solid #e9ecef;
+}
+
+    /* 2. Garante que ambos os botões tenham o mesmo tamanho */
+    .modal-footer .btn {
+        flex: 1; /* Faz os botões crescerem para ocupar o espaço */
+        max-width: 48%; /* Limita o tamanho para criar um espaço no meio */
+        text-align: center;
+        padding: 0.75rem 1rem; /* Um pouco maior para mais destaque */
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    /* 3. Estiliza o botão de cancelar para ser AZUL (reaproveitando a cor primária) */
+    .modal-footer .btn-secondary {
+        background-color: #3498db; /* Cor azul primária */
+        color: #fff;
+        border: 1px solid #3498db;
+    }
+
+        .modal-footer .btn-secondary:hover {
+            background-color: #2980b9; /* Azul mais escuro no hover */
+            border-color: #2980b9;
+        }
+
+    /* 4. Estiliza o botão de excluir para ser VERMELHO */
+    .modal-footer .btn-danger {
+        background-color: #e74c3c;
+        color: #fff;
+        border: 1px solid #e74c3c;
+    }
+
+        .modal-footer .btn-danger:hover {
+            background-color: #c0392b; /* Vermelho mais escuro no hover */
+            border-color: #c0392b;
+        }
+
+/* ===== FIM DAS ALTERAÇÕES ===== */
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

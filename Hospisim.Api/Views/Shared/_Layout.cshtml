@@ -4,19 +4,92 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] – Hospisim</title>
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        /* Header & Footer inline styles */
+        html, body {
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background: #1f3a57;
+            padding: 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        main {
+            flex: 1; 
+        }
+
+        .navbar-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 1rem;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+        .navbar-brand {
+            color: #ecf0f1;
+            font-size: 1.75rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        .navbar-menu {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar-menu li {
+            margin-left: 1.5rem;
+        }
+        .navbar-menu a {
+            color: #ecf0f1;
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .navbar-menu a:hover {
+            background: rgba(236,240,241,0.2);
+        }
+
+        footer {
+            background: #1f3a57;
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+            footer p {
+                margin: 0;
+                font-size: 0.9rem;
+                color: white;
+            }
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar">
-            <a class="navbar-brand" asp-controller="Pacientes" asp-action="Index">HOSPISIM</a>
+        <nav class="navbar navbar-container">
+            <div class="navbar-container">
+                <a class="navbar-brand" asp-controller="Pacientes" asp-action="Index">HOSPISIM</a>
+                <ul class="navbar-menu">
+                    <li><a asp-controller="Pacientes" asp-action="Index">Pacientes</a></li>
+                    <li><a asp-controller="Profissionais" asp-action="Index">Profissionais</a></li>
+                    <li><a asp-controller="Prontuarios" asp-action="Index">Prontuários</a></li>
+                    <li><a asp-controller="Atendimentos" asp-action="Index">Atendimentos</a></li>
+                </ul>
+            </div>
         </nav>
     </header>
     <main>
         @RenderBody()
+        @RenderSection("Scripts", required: false)
     </main>
     <footer>
-        <p>&copy; @DateTime.Now.Year – Hospital Vida Plena</p>
+        <p>&copy; @DateTime.Now.Year – Hospital Vida Plena - desenvolvido por Kethelen Parra</p>
     </footer>
 </body>
 </html>
