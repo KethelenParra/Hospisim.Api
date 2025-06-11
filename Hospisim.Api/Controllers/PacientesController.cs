@@ -30,18 +30,13 @@ namespace Hospisim.Api.Controllers
         // GET: Pacientes/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var paciente = await _context.Pacientes
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (paciente == null)
-            {
-                return NotFound();
-            }
+                .Include(p => p.Prontuarios)             // carrega prontuários
+                .FirstOrDefaultAsync(p => p.Id == id);
 
+            if (paciente == null) return NotFound();
             return View(paciente);
         }
 

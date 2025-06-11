@@ -34,6 +34,6 @@ namespace Hospisim.Api.Models
         public bool PossuiPlanoSaude { get; set; }
 
         // Relacionamento 1:N com Prontuario (será adicionado depois)
-        // public ICollection<Prontuario> Prontuarios { get; set; }
+        public ICollection<Prontuario> Prontuarios { get; set; }
     }
 }
