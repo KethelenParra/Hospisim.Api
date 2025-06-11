@@ -1,5 +1,7 @@
 ﻿using Hospisim.Api.Enums;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Hospisim.Api.Models
 {
@@ -34,6 +36,8 @@ namespace Hospisim.Api.Models
         public bool PossuiPlanoSaude { get; set; }
 
         // Relacionamento 1:N com Prontuario (será adicionado depois)
+        [ValidateNever]
+        [JsonIgnore]
         public ICollection<Prontuario> Prontuarios { get; set; }
     }
 }

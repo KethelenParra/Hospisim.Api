@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
+using System.Text.Json.Serialization;
 namespace Hospisim.Api.Models
 {
     public class Prontuario
@@ -24,6 +24,7 @@ namespace Hospisim.Api.Models
         public Guid PacienteId { get; set; }
 
         // Navegação
+        [JsonIgnore]
         public Paciente Paciente { get; set; }
 
         // Um prontuário pode ter vários atendimentos
