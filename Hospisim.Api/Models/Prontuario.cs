@@ -23,8 +23,6 @@ namespace Hospisim.Api.Models
         [Required]
         public Guid PacienteId { get; set; }
 
-        // Navegação
-        [JsonIgnore]
         public Paciente Paciente { get; set; }
 
         // Um prontuário pode ter vários atendimentos

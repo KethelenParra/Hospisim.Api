@@ -4,6 +4,7 @@ using Hospisim.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hospisim.Api.Migrations
 {
     [DbContext(typeof(HospisimDbContext))]
-    partial class HospisimDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250612030742_AlterExameDataRealizacaoToNullable")]
+    partial class AlterExameDataRealizacaoToNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,14 +60,6 @@ namespace Hospisim.Api.Migrations
                             Data = new DateTime(2025, 6, 3, 14, 30, 0, 0, DateTimeKind.Unspecified),
                             InstrucoesPosAlta = "Repouso e fisioterapia",
                             InternacaoId = new Guid("11111111-aaaa-aaaa-aaaa-aaaaaaaa0001")
-                        },
-                        new
-                        {
-                            Id = new Guid("22222222-bbbb-bbbb-bbbb-bbbbbbbb0002"),
-                            CondicaoPaciente = "Melhorado",
-                            Data = new DateTime(2025, 6, 14, 16, 0, 0, 0, DateTimeKind.Unspecified),
-                            InstrucoesPosAlta = "Usar máscara de oxigênio em casa",
-                            InternacaoId = new Guid("11111111-aaaa-aaaa-aaaa-aaaaaaaa0002")
                         });
                 });
 
@@ -130,28 +125,6 @@ namespace Hospisim.Api.Migrations
                             ProntuarioId = new Guid("cccccccc-0000-0000-0000-000000000002"),
                             Status = "EmAndamento",
                             Tipo = "Emergencia"
-                        },
-                        new
-                        {
-                            Id = new Guid("dddddddd-0000-0000-0000-000000000003"),
-                            DataHora = new DateTime(2025, 6, 10, 15, 30, 0, 0, DateTimeKind.Unspecified),
-                            Local = "Consultório 3",
-                            PacienteId = new Guid("33333333-3333-3333-3333-333333333333"),
-                            ProfissionalId = new Guid("bbbbbbbb-0000-0000-0000-000000000003"),
-                            ProntuarioId = new Guid("cccccccc-0000-0000-0000-000000000003"),
-                            Status = "EmAndamento",
-                            Tipo = "Consulta"
-                        },
-                        new
-                        {
-                            Id = new Guid("dddddddd-0000-0000-0000-000000000004"),
-                            DataHora = new DateTime(2025, 6, 12, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            Local = "Sala 02",
-                            PacienteId = new Guid("44444444-4444-4444-4444-444444444444"),
-                            ProfissionalId = new Guid("bbbbbbbb-0000-0000-0000-000000000004"),
-                            ProntuarioId = new Guid("cccccccc-0000-0000-0000-000000000004"),
-                            Status = "Cancelado",
-                            Tipo = "Consulta"
                         });
                 });
 
@@ -184,21 +157,6 @@ namespace Hospisim.Api.Migrations
                         {
                             Id = new Guid("aaaaaaaa-0000-0000-0000-000000000003"),
                             Nome = "Ortopedia"
-                        },
-                        new
-                        {
-                            Id = new Guid("aaaaaaaa-0000-0000-0000-000000000004"),
-                            Nome = "Dermatologia"
-                        },
-                        new
-                        {
-                            Id = new Guid("aaaaaaaa-0000-0000-0000-000000000005"),
-                            Nome = "Neurologia"
-                        },
-                        new
-                        {
-                            Id = new Guid("aaaaaaaa-0000-0000-0000-000000000006"),
-                            Nome = "Ginecologia"
                         });
                 });
 
@@ -236,19 +194,10 @@ namespace Hospisim.Api.Migrations
                         {
                             Id = new Guid("ffffffff-0000-0000-0000-000000000001"),
                             AtendimentoId = new Guid("dddddddd-0000-0000-0000-000000000001"),
-                            DataRealizacao = new DateTime(2025, 6, 6, 11, 0, 0, 0, DateTimeKind.Unspecified),
+                            DataRealizacao = new DateTime(2025, 6, 5, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             DataSolicitacao = new DateTime(2025, 7, 5, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             Resultado = "Hemograma normal",
                             Tipo = "Sangue"
-                        },
-                        new
-                        {
-                            Id = new Guid("ffffffff-0000-0000-0000-000000000002"),
-                            AtendimentoId = new Guid("dddddddd-0000-0000-0000-000000000004"),
-                            DataRealizacao = new DateTime(2025, 6, 12, 10, 30, 0, 0, DateTimeKind.Unspecified),
-                            DataSolicitacao = new DateTime(2025, 6, 12, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            Resultado = "Sem fraturas",
-                            Tipo = "Raio-X"
                         });
                 });
 
@@ -321,21 +270,6 @@ namespace Hospisim.Api.Migrations
                             PrevisaoAlta = new DateTime(2025, 6, 9, 14, 30, 0, 0, DateTimeKind.Unspecified),
                             Quarto = "Q-3",
                             Setor = "Clínica Geral",
-                            StatusInternacao = "Ativa"
-                        },
-                        new
-                        {
-                            Id = new Guid("11111111-aaaa-aaaa-aaaa-aaaaaaaa0002"),
-                            AtendimentoId = new Guid("dddddddd-0000-0000-0000-000000000003"),
-                            DataEntrada = new DateTime(2025, 6, 10, 15, 30, 0, 0, DateTimeKind.Unspecified),
-                            Leito = "L-20",
-                            MotivoInternacao = "Tratamento de pneumonia",
-                            ObservacoesClinicas = "Oxigenoterapia",
-                            PacienteId = new Guid("33333333-3333-3333-3333-333333333333"),
-                            PlanoSaudeUtilizado = "SulAmérica",
-                            PrevisaoAlta = new DateTime(2025, 6, 14, 15, 30, 0, 0, DateTimeKind.Unspecified),
-                            Quarto = "Q-5",
-                            Setor = "Pulmonar",
                             StatusInternacao = "Ativa"
                         });
                 });
@@ -437,36 +371,6 @@ namespace Hospisim.Api.Migrations
                             Sexo = "Feminino",
                             Telefone = "(31) 99876-5432",
                             TipoSanguineo = "BPositivo"
-                        },
-                        new
-                        {
-                            Id = new Guid("44444444-4444-4444-4444-444444444444"),
-                            CPF = "45678901234",
-                            DataNascimento = new DateTime(1985, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "daniel.oliveira@exemplo.com",
-                            EnderecoCompleto = "Rua dos Limoeiros, 50, Centro",
-                            EstadoCivil = "Viuvo",
-                            NomeCompleto = "Daniel Oliveira",
-                            NumeroCartaoSUS = "5566778899",
-                            PossuiPlanoSaude = true,
-                            Sexo = "Masculino",
-                            Telefone = "(41) 97654-3210",
-                            TipoSanguineo = "ABNegativo"
-                        },
-                        new
-                        {
-                            Id = new Guid("55555555-5555-5555-5555-555555555555"),
-                            CPF = "56789012345",
-                            DataNascimento = new DateTime(1992, 7, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "elaine.pereira@exemplo.com",
-                            EnderecoCompleto = "Av. Brasil, 200, Bairro União",
-                            EstadoCivil = "Solteiro",
-                            NomeCompleto = "Elaine Pereira",
-                            NumeroCartaoSUS = "6677889900",
-                            PossuiPlanoSaude = false,
-                            Sexo = "Feminino",
-                            Telefone = "(51) 91234-9876",
-                            TipoSanguineo = "ONegativo"
                         });
                 });
 
@@ -531,20 +435,6 @@ namespace Hospisim.Api.Migrations
                             Medicamento = "Dipirona 500mg",
                             Observacoes = "",
                             ProfissionalId = new Guid("bbbbbbbb-0000-0000-0000-000000000001"),
-                            ReacoesAdversas = "",
-                            StatusPrescricao = "Ativa",
-                            ViaAdministracao = "Oral"
-                        },
-                        new
-                        {
-                            Id = new Guid("eeeeeeee-0000-0000-0000-000000000002"),
-                            AtendimentoId = new Guid("dddddddd-0000-0000-0000-000000000003"),
-                            DataInicio = new DateTime(2025, 6, 10, 15, 30, 0, 0, DateTimeKind.Unspecified),
-                            Dosagem = "1 comprimido",
-                            Frequencia = "8/8h",
-                            Medicamento = "Paracetamol 750mg",
-                            Observacoes = "Tomar após refeição",
-                            ProfissionalId = new Guid("bbbbbbbb-0000-0000-0000-000000000003"),
                             ReacoesAdversas = "",
                             StatusPrescricao = "Ativa",
                             ViaAdministracao = "Oral"
@@ -633,36 +523,6 @@ namespace Hospisim.Api.Migrations
                             Telefone = "(21)98765-0002",
                             TipoRegistro = "CRM",
                             Turno = "Tarde"
-                        },
-                        new
-                        {
-                            Id = new Guid("bbbbbbbb-0000-0000-0000-000000000003"),
-                            Ativo = true,
-                            CPF = "33344455566",
-                            CargaHorariaSemanal = 35,
-                            DataAdmissao = new DateTime(2020, 11, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "lucas.fernandes@hospisim.com",
-                            EspecialidadeId = new Guid("aaaaaaaa-0000-0000-0000-000000000003"),
-                            NomeCompleto = "Dr. Lucas Fernandes",
-                            RegistroConselho = "34567-CRM",
-                            Telefone = "(31)91234-0003",
-                            TipoRegistro = "CRM",
-                            Turno = "Noite"
-                        },
-                        new
-                        {
-                            Id = new Guid("bbbbbbbb-0000-0000-0000-000000000004"),
-                            Ativo = false,
-                            CPF = "44455566677",
-                            CargaHorariaSemanal = 45,
-                            DataAdmissao = new DateTime(2019, 2, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "paula.ribeiro@hospisim.com",
-                            EspecialidadeId = new Guid("aaaaaaaa-0000-0000-0000-000000000004"),
-                            NomeCompleto = "Dra. Paula Ribeiro",
-                            RegistroConselho = "45678-CRM",
-                            Telefone = "(41)98765-0004",
-                            TipoRegistro = "CRM",
-                            Turno = "Manha"
                         });
                 });
 
@@ -708,22 +568,6 @@ namespace Hospisim.Api.Migrations
                             Numero = "PRT-1002",
                             Observacoes = "Prontuário de Bruno Costa",
                             PacienteId = new Guid("22222222-2222-2222-2222-222222222222")
-                        },
-                        new
-                        {
-                            Id = new Guid("cccccccc-0000-0000-0000-000000000003"),
-                            DataAbertura = new DateTime(2025, 6, 10, 9, 15, 0, 0, DateTimeKind.Unspecified),
-                            Numero = "PRT-1003",
-                            Observacoes = "Prontuário de Carla no retorno",
-                            PacienteId = new Guid("33333333-3333-3333-3333-333333333333")
-                        },
-                        new
-                        {
-                            Id = new Guid("cccccccc-0000-0000-0000-000000000004"),
-                            DataAbertura = new DateTime(2025, 6, 12, 11, 45, 0, 0, DateTimeKind.Unspecified),
-                            Numero = "PRT-1004",
-                            Observacoes = "Prontuário de Daniel Oliveira",
-                            PacienteId = new Guid("44444444-4444-4444-4444-444444444444")
                         });
                 });
 

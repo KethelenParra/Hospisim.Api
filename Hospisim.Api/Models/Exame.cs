@@ -17,7 +17,7 @@ namespace Hospisim.Api.Models
         ApplyFormatInEditMode = true)]
         public DateTime DataSolicitacao { get; set; }
 
-        [Required, Display(Name = "Data da Realização")]
+        [Display(Name = "Data da Realização")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}",
         ApplyFormatInEditMode = true)]

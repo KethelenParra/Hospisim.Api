@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Hospisim.Api.Data;
 using Hospisim.Api.Models;
+using Hospisim.Api.Extensions;
+using Hospisim.Api.Dtos.Atendimento;
+using Hospisim.Api.Dtos.Prontuario;
 
 namespace Hospisim.Api.Controllers.Api
 {
@@ -13,81 +16,135 @@ namespace Hospisim.Api.Controllers.Api
     public class ProntuariosApiController : ControllerBase
     {
         private readonly HospisimDbContext _context;
+
         public ProntuariosApiController(HospisimDbContext context)
         {
             _context = context;
         }
 
-        /// <summary>Obtém todos os prontuários cadastrados</summary>
-        /// <response code="204">Retorna lista dos prontuarios</response>
-        [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult GetAll() =>
-            Ok(_context.Prontuarios
-                       .Include(pr => pr.Paciente)
-                       .Include(pr => pr.Atendimentos)
-                       .AsNoTracking()
-                       .ToList());
-
-        /// <summary>Obtém um prontuário pelo Id</summary>
-        /// <response code="204">Retorna o prontuario</response>
+        /// <summary>
+        /// Obtém os detalhes de um prontuário, incluindo seu histórico de atendimentos.
+        /// </summary>
+        /// <response code="200">Retorna o prontuario</response>
         /// <response code="404">Prontuario não encontrado</response>
         [HttpGet("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult GetById(Guid id)
+        public async Task<IActionResult> GetById(Guid id)
         {
-            var pr = _context.Prontuarios
-                             .Include(pr => pr.Paciente)
-                             .Include(pr => pr.Atendimentos)
-                             .AsNoTracking()
-                             .FirstOrDefault(pr => pr.Id == id);
-            if (pr == null) return NotFound();
-            return Ok(pr);
+            var prontuario = await _context.Prontuarios
+                .Include(p => p.Paciente)
+                .Include(p => p.Atendimentos).ThenInclude(a => a.Profissional)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (prontuario == null) return NotFound();
+
+            var dto = new ProntuarioDetalhesDto
+            {
+                Id = prontuario.Id,
+                Numero = prontuario.Numero,
+                DataAbertura = prontuario.DataAbertura,
+                Observacoes = prontuario.Observacoes,
+                PacienteId = prontuario.PacienteId,
+                NomePaciente = prontuario.Paciente.NomeCompleto,
+                CpfPaciente = prontuario.Paciente.CPF.ToCPFFormat(),
+                Atendimentos = prontuario.Atendimentos.Select(a => new AtendimentoResumoDto
+                {
+                    Id = a.Id,
+                    DataHora = a.DataHora,
+                    Tipo = a.Tipo.GetDisplayName(),
+                    Status = a.Status.GetDisplayName(),
+                    NomeProfissional = a.Profissional.NomeCompleto
+                }).OrderByDescending(a => a.DataHora).ToList()
+            };
+
+            return Ok(dto);
         }
 
-        /// <summary>Cadastra um novo prontuário</summary>
-        /// <response code="201">Prontruario criado com sucesso</response>
+        /// <summary>
+        /// Cria um novo prontuário para um paciente (se ele ainda não tiver um).
+        /// </summary>
+        /// <response code="201">Prontuario criado com sucesso</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public IActionResult Post(Prontuario pr)
+        public async Task<IActionResult> Post([FromBody] CreateProntuarioDto dto)
         {
-            pr.Id = Guid.NewGuid();
-            _context.Prontuarios.Add(pr);
-            _context.SaveChanges();
-            return CreatedAtAction(nameof(GetById), new { id = pr.Id }, pr);
+            // REGRA DE NEGÓCIO: Um paciente só pode ter um prontuário.
+            var prontuarioExistente = await _context.Prontuarios.AnyAsync(p => p.PacienteId == dto.PacienteId);
+            if (prontuarioExistente)
+            {
+                return BadRequest(new { message = "Este paciente já possui um prontuário." });
+            }
+
+            var paciente = await _context.Pacientes.FindAsync(dto.PacienteId);
+            if (paciente == null) return BadRequest(new { message = "Paciente não encontrado." });
+
+            var prontuario = new Prontuario
+            {
+                Id = Guid.NewGuid(),
+                PacienteId = dto.PacienteId,
+                Numero = $"PRT-{new Random().Next(10000, 99999)}", // Lógica simples de geração
+                DataAbertura = DateTime.UtcNow,
+                Observacoes = dto.Observacoes
+            };
+
+            await _context.Prontuarios.AddAsync(prontuario);
+            await _context.SaveChangesAsync();
+
+            var resultadoDto = await GetById(prontuario.Id);
+            if (resultadoDto is OkObjectResult okResult)
+            {
+                return CreatedAtAction(nameof(GetById), new { id = prontuario.Id }, okResult.Value);
+            }
+
+            return StatusCode(500, "Erro ao recuperar o prontuário criado.");
         }
 
-        /// <summary>Atualiza um prontuário existente</summary>
+        /// <summary>
+        /// Atualiza as observações gerais de um prontuário.
+        /// </summary>
         /// <response code="204">Atualização sucedida</response>
+        /// <response code="404">Prontuario não encontrado</response>
         [HttpPut("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult Put(Guid id, Prontuario input)
+        public async Task<IActionResult> Put(Guid id, [FromBody] UpdateProntuarioDto dto)
         {
-            var pr = _context.Prontuarios.Find(id);
-            if (pr == null) return NotFound();
+            var prontuario = await _context.Prontuarios.FindAsync(id);
+            if (prontuario == null) return NotFound();
 
-            pr.Numero = input.Numero;
-            pr.DataAbertura = input.DataAbertura;
-            pr.Observacoes = input.Observacoes;
-            _context.SaveChanges();
+            prontuario.Observacoes = dto.Observacoes;
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        /// <summary>Exclui um prontuário</summary>
-        /// <response code="204">Atualização sucedida</response>
+        /// <summary>
+        /// Exclui um prontuário (só é permitido se não tiver atendimentos registrados).
+        /// </summary>
+        /// <response code="204">Exclusão sucedida</response>
         /// <response code="404">Prontuario não encontrado</response>
         [HttpDelete("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var pr = _context.Prontuarios.Find(id);
-            if (pr == null) return NotFound();
-            _context.Prontuarios.Remove(pr);
-            _context.SaveChanges();
+            var prontuario = await _context.Prontuarios
+                .Include(p => p.Atendimentos)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (prontuario == null) return NotFound();
+
+            // REGRA DE NEGÓCIO: Não permitir excluir prontuário com histórico.
+            if (prontuario.Atendimentos.Any())
+            {
+                return BadRequest(new { message = "Não é possível excluir um prontuário que possui atendimentos registrados." });
+            }
+
+            _context.Prontuarios.Remove(prontuario);
+            await _context.SaveChangesAsync();
+
             return NoContent();
         }
     }

@@ -131,6 +131,7 @@ namespace Hospisim.Api.Data
                 .WithMany(e => e.Profissionais)
                 .HasForeignKey(prof => prof.EspecialidadeId);
 
+            // ** 1) Pacientes **
             modelBuilder.Entity<Paciente>().HasData(
                 new Paciente
                 {
@@ -176,29 +177,50 @@ namespace Hospisim.Api.Data
                     NumeroCartaoSUS = "1122334455",
                     EstadoCivil = EstadoCivil.Divorciado,
                     PossuiPlanoSaude = true
+                },
+                new Paciente
+                {
+                    Id = Guid.Parse("44444444-4444-4444-4444-444444444444"),
+                    NomeCompleto = "Daniel Oliveira",
+                    CPF = "45678901234",
+                    DataNascimento = new DateTime(1985, 3, 15),
+                    Sexo = Sexo.Masculino,
+                    TipoSanguineo = TipoSanguineo.ABNegativo,
+                    Telefone = "(41) 97654-3210",
+                    Email = "daniel.oliveira@exemplo.com",
+                    EnderecoCompleto = "Rua dos Limoeiros, 50, Centro",
+                    NumeroCartaoSUS = "5566778899",
+                    EstadoCivil = EstadoCivil.Viuvo,
+                    PossuiPlanoSaude = true
+                },
+                new Paciente
+                {
+                    Id = Guid.Parse("55555555-5555-5555-5555-555555555555"),
+                    NomeCompleto = "Elaine Pereira",
+                    CPF = "56789012345",
+                    DataNascimento = new DateTime(1992, 7, 22),
+                    Sexo = Sexo.Feminino,
+                    TipoSanguineo = TipoSanguineo.ONegativo,
+                    Telefone = "(51) 91234-9876",
+                    Email = "elaine.pereira@exemplo.com",
+                    EnderecoCompleto = "Av. Brasil, 200, Bairro União",
+                    NumeroCartaoSUS = "6677889900",
+                    EstadoCivil = EstadoCivil.Solteiro,
+                    PossuiPlanoSaude = false
                 }
             );
 
-            // 2) Especialidades
+            // ** 2) Especialidades **
             modelBuilder.Entity<Especialidade>().HasData(
-                new Especialidade
-                {
-                    Id = Guid.Parse("aaaaaaaa-0000-0000-0000-000000000001"),
-                    Nome = "Cardiologia"
-                },
-                new Especialidade
-                {
-                    Id = Guid.Parse("aaaaaaaa-0000-0000-0000-000000000002"),
-                    Nome = "Pediatria"
-                },
-                new Especialidade
-                {
-                    Id = Guid.Parse("aaaaaaaa-0000-0000-0000-000000000003"),
-                    Nome = "Ortopedia"
-                }
+                new Especialidade { Id = Guid.Parse("aaaaaaaa-0000-0000-0000-000000000001"), Nome = "Cardiologia" },
+                new Especialidade { Id = Guid.Parse("aaaaaaaa-0000-0000-0000-000000000002"), Nome = "Pediatria" },
+                new Especialidade { Id = Guid.Parse("aaaaaaaa-0000-0000-0000-000000000003"), Nome = "Ortopedia" },
+                new Especialidade { Id = Guid.Parse("aaaaaaaa-0000-0000-0000-000000000004"), Nome = "Dermatologia" },
+                new Especialidade { Id = Guid.Parse("aaaaaaaa-0000-0000-0000-000000000005"), Nome = "Neurologia" },
+                new Especialidade { Id = Guid.Parse("aaaaaaaa-0000-0000-0000-000000000006"), Nome = "Ginecologia" }
             );
 
-            // 3) Profissionais de Saúde
+            // ** 3) Profissionais de Saúde **
             modelBuilder.Entity<ProfissionalSaude>().HasData(
                 new ProfissionalSaude
                 {
@@ -229,10 +251,40 @@ namespace Hospisim.Api.Data
                     CargaHorariaSemanal = 30,
                     Turno = Turno.Tarde,
                     Ativo = true
+                },
+                new ProfissionalSaude
+                {
+                    Id = Guid.Parse("bbbbbbbb-0000-0000-0000-000000000003"),
+                    NomeCompleto = "Dr. Lucas Fernandes",
+                    CPF = "33344455566",
+                    Email = "lucas.fernandes@hospisim.com",
+                    Telefone = "(31)91234-0003",
+                    RegistroConselho = "34567-CRM",
+                    TipoRegistro = TipoRegistro.CRM,
+                    EspecialidadeId = Guid.Parse("aaaaaaaa-0000-0000-0000-000000000003"),
+                    DataAdmissao = new DateTime(2020, 11, 10),
+                    CargaHorariaSemanal = 35,
+                    Turno = Turno.Noite,
+                    Ativo = true
+                },
+                new ProfissionalSaude
+                {
+                    Id = Guid.Parse("bbbbbbbb-0000-0000-0000-000000000004"),
+                    NomeCompleto = "Dra. Paula Ribeiro",
+                    CPF = "44455566677",
+                    Email = "paula.ribeiro@hospisim.com",
+                    Telefone = "(41)98765-0004",
+                    RegistroConselho = "45678-CRM",
+                    TipoRegistro = TipoRegistro.CRM,
+                    EspecialidadeId = Guid.Parse("aaaaaaaa-0000-0000-0000-000000000004"),
+                    DataAdmissao = new DateTime(2019, 2, 5),
+                    CargaHorariaSemanal = 45,
+                    Turno = Turno.Manha,
+                    Ativo = false
                 }
             );
 
-            // 4) Prontuários
+            // ** 4) Prontuários **
             modelBuilder.Entity<Prontuario>().HasData(
                 new Prontuario
                 {
@@ -249,10 +301,26 @@ namespace Hospisim.Api.Data
                     DataAbertura = new DateTime(2025, 6, 5, 10, 0, 0),
                     Observacoes = "Prontuário de Bruno Costa",
                     PacienteId = Guid.Parse("22222222-2222-2222-2222-222222222222")
+                },
+                new Prontuario
+                {
+                    Id = Guid.Parse("cccccccc-0000-0000-0000-000000000003"),
+                    Numero = "PRT-1003",
+                    DataAbertura = new DateTime(2025, 6, 10, 9, 15, 0),
+                    Observacoes = "Prontuário de Carla no retorno",
+                    PacienteId = Guid.Parse("33333333-3333-3333-3333-333333333333")
+                },
+                new Prontuario
+                {
+                    Id = Guid.Parse("cccccccc-0000-0000-0000-000000000004"),
+                    Numero = "PRT-1004",
+                    DataAbertura = new DateTime(2025, 6, 12, 11, 45, 0),
+                    Observacoes = "Prontuário de Daniel Oliveira",
+                    PacienteId = Guid.Parse("44444444-4444-4444-4444-444444444444")
                 }
             );
 
-            // 5) Atendimentos
+            // ** 5) Atendimentos **
             modelBuilder.Entity<Atendimento>().HasData(
                 new Atendimento
                 {
@@ -275,10 +343,32 @@ namespace Hospisim.Api.Data
                     PacienteId = Guid.Parse("33333333-3333-3333-3333-333333333333"),
                     ProfissionalId = Guid.Parse("bbbbbbbb-0000-0000-0000-000000000002"),
                     ProntuarioId = Guid.Parse("cccccccc-0000-0000-0000-000000000002")
+                },
+                new Atendimento
+                {
+                    Id = Guid.Parse("dddddddd-0000-0000-0000-000000000003"),
+                    DataHora = new DateTime(2025, 6, 10, 15, 30, 0),
+                    Tipo = TipoAtendimento.Consulta,
+                    Status = StatusAtendimento.EmAndamento,
+                    Local = "Consultório 3",
+                    PacienteId = Guid.Parse("33333333-3333-3333-3333-333333333333"),
+                    ProfissionalId = Guid.Parse("bbbbbbbb-0000-0000-0000-000000000003"),
+                    ProntuarioId = Guid.Parse("cccccccc-0000-0000-0000-000000000003")
+                },
+                new Atendimento
+                {
+                    Id = Guid.Parse("dddddddd-0000-0000-0000-000000000004"),
+                    DataHora = new DateTime(2025, 6, 12, 9, 0, 0),
+                    Tipo = TipoAtendimento.Consulta,
+                    Status = StatusAtendimento.Cancelado,
+                    Local = "Sala 02",
+                    PacienteId = Guid.Parse("44444444-4444-4444-4444-444444444444"),
+                    ProfissionalId = Guid.Parse("bbbbbbbb-0000-0000-0000-000000000004"),
+                    ProntuarioId = Guid.Parse("cccccccc-0000-0000-0000-000000000004")
                 }
             );
 
-            // 6) Prescrições
+            // ** 6) Prescrições **
             modelBuilder.Entity<Prescricao>().HasData(
                 new Prescricao
                 {
@@ -291,13 +381,28 @@ namespace Hospisim.Api.Data
                     ViaAdministracao = ViaAdministracao.Oral,
                     DataInicio = new DateTime(2025, 6, 5, 10, 0, 0),
                     DataFim = null,
-                    Observacoes = "",                   
+                    Observacoes = "",
                     StatusPrescricao = StatusPrescricao.Ativa,
-                    ReacoesAdversas = ""                  
+                    ReacoesAdversas = ""
+                },
+                new Prescricao
+                {
+                    Id = Guid.Parse("eeeeeeee-0000-0000-0000-000000000002"),
+                    AtendimentoId = Guid.Parse("dddddddd-0000-0000-0000-000000000003"),
+                    ProfissionalId = Guid.Parse("bbbbbbbb-0000-0000-0000-000000000003"),
+                    Medicamento = "Paracetamol 750mg",
+                    Dosagem = "1 comprimido",
+                    Frequencia = "8/8h",
+                    ViaAdministracao = ViaAdministracao.Oral,
+                    DataInicio = new DateTime(2025, 6, 10, 15, 30, 0),
+                    DataFim = null,
+                    Observacoes = "Tomar após refeição",
+                    StatusPrescricao = StatusPrescricao.Ativa,
+                    ReacoesAdversas = ""
                 }
             );
 
-            // 7) Exames
+            // ** 7) Exames **
             modelBuilder.Entity<Exame>().HasData(
                 new Exame
                 {
@@ -305,12 +410,21 @@ namespace Hospisim.Api.Data
                     AtendimentoId = Guid.Parse("dddddddd-0000-0000-0000-000000000001"),
                     Tipo = "Sangue",
                     DataSolicitacao = new DateTime(2025, 7, 5, 10, 0, 0),
-                    DataRealizacao = new DateTime(2025, 6, 5, 10, 0, 0),
+                    DataRealizacao = new DateTime(2025, 6, 6, 11, 0, 0),
                     Resultado = "Hemograma normal"
+                },
+                new Exame
+                {
+                    Id = Guid.Parse("ffffffff-0000-0000-0000-000000000002"),
+                    AtendimentoId = Guid.Parse("dddddddd-0000-0000-0000-000000000004"),
+                    Tipo = "Raio-X",
+                    DataSolicitacao = new DateTime(2025, 6, 12, 9, 0, 0),
+                    DataRealizacao = new DateTime(2025, 6, 12, 10, 30, 0),
+                    Resultado = "Sem fraturas"
                 }
             );
 
-            // 8) Internações
+            // ** 8) Internações **
             modelBuilder.Entity<Internacao>().HasData(
                 new Internacao
                 {
@@ -326,10 +440,25 @@ namespace Hospisim.Api.Data
                     PlanoSaudeUtilizado = "Unimed",
                     ObservacoesClinicas = "Sem complicações",
                     StatusInternacao = StatusInternacao.Ativa
+                },
+                new Internacao
+                {
+                    Id = Guid.Parse("11111111-aaaa-aaaa-aaaa-aaaaaaaa0002"),
+                    PacienteId = Guid.Parse("33333333-3333-3333-3333-333333333333"),
+                    AtendimentoId = Guid.Parse("dddddddd-0000-0000-0000-000000000003"),
+                    DataEntrada = new DateTime(2025, 6, 10, 15, 30, 0),
+                    PrevisaoAlta = new DateTime(2025, 6, 14, 15, 30, 0),
+                    MotivoInternacao = "Tratamento de pneumonia",
+                    Leito = "L-20",
+                    Quarto = "Q-5",
+                    Setor = "Pulmonar",
+                    PlanoSaudeUtilizado = "SulAmérica",
+                    ObservacoesClinicas = "Oxigenoterapia",
+                    StatusInternacao = StatusInternacao.Ativa
                 }
             );
 
-            // 9) Altas Hospitalares
+            // ** 9) Altas Hospitalares **
             modelBuilder.Entity<AltaHospitalar>().HasData(
                 new AltaHospitalar
                 {
@@ -338,8 +467,16 @@ namespace Hospisim.Api.Data
                     Data = new DateTime(2025, 6, 3, 14, 30, 0),
                     CondicaoPaciente = "Estável",
                     InstrucoesPosAlta = "Repouso e fisioterapia"
+                },
+                new AltaHospitalar
+                {
+                    Id = Guid.Parse("22222222-bbbb-bbbb-bbbb-bbbbbbbb0002"),
+                    InternacaoId = Guid.Parse("11111111-aaaa-aaaa-aaaa-aaaaaaaa0002"),
+                    Data = new DateTime(2025, 6, 14, 16, 0, 0),
+                    CondicaoPaciente = "Melhorado",
+                    InstrucoesPosAlta = "Usar máscara de oxigênio em casa"
                 }
-            );
+             );
 
         }
     }
