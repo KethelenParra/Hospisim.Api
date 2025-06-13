@@ -38,6 +38,7 @@ namespace Hospisim.Api.Controllers.Api
                 .Include(a => a.Paciente)
                 .Include(a => a.Profissional)
                 .Include(a => a.Prescricoes)
+                    .ThenInclude(p => p.Profissional)
                 .Include(a => a.Exames)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(a => a.Id == id);
@@ -66,7 +67,14 @@ namespace Hospisim.Api.Controllers.Api
                     ViaAdministracao = p.ViaAdministracao.GetDisplayName(),
                     DataInicio = p.DataInicio,
                     DataFim = p.DataFim,
-                    StatusPrescricao = p.StatusPrescricao.GetDisplayName()
+                    Observacoes = p.Observacoes,
+                    StatusPrescricao = p.StatusPrescricao.GetDisplayName(),
+                    ReacoesAdversas = p.ReacoesAdversas,
+                    AtendimentoId = atendimento.Id, 
+                    PacienteId = atendimento.PacienteId,
+                    NomePaciente = atendimento.Paciente.NomeCompleto,
+                    ProfissionalId = p.ProfissionalId,
+                    NomeProfissional = p.Profissional.NomeCompleto 
                 }).ToList(),
 
                 Exames = atendimento.Exames.Select(e => new ExameDto
@@ -77,8 +85,6 @@ namespace Hospisim.Api.Controllers.Api
                     DataRealizacao = e.DataRealizacao,
                     Resultado = e.Resultado,
                     AtendimentoId = e.AtendimentoId,
-
-                    // Adicionamos os dados do atendimento "pai" aqui
                     DataAtendimento = atendimento.DataHora,
                     NomePaciente = atendimento.Paciente.NomeCompleto,
                     NomeProfissional = atendimento.Profissional.NomeCompleto
