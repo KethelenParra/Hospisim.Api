@@ -1,0 +1,126 @@
+﻿@model IEnumerable<Hospisim.Api.Models.ProfissionalSaude>
+@using Hospisim.Api.Extensions
+
+@{
+    ViewData["Title"] = "Profissionais de Saúde";
+}
+
+@Html.AntiForgeryToken()
+<div class="container">
+    <div class="header-row">
+        <h1>@ViewData["Title"]</h1>
+        <a asp-action="Create" class="btn btn-primary">Novo Profissional</a>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome Completo</th>
+                <th>Especialidade</th>
+                <th>Registro do Conselho</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <!-- 1. ID único na linha da tabela -->
+                <tr id="profissional-row-@item.Id">
+                    <td data-label="Nome Completo">@item.NomeCompleto</td>
+                    <td data-label="Especialidade">@item.Especialidade?.Nome</td>
+                    <td data-label="Registro">@item.RegistroConselho</td>
+                    <td data-label="Status">
+                        @(item.Ativo ? "Ativo" : "Inativo")
+                    </td>
+                    <td class="table-actions">
+                        <a asp-action="Details" asp-route-id="@item.Id" title="Detalhes">👁️</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id" title="Editar">✏️</a>
+                        <!-- 2. Botão de delete com os atributos data-* corretos -->
+                        <a href="#" class="delete-btn"
+                           data-id="@item.Id"
+                           data-name="@item.NomeCompleto" title="Excluir">🗑️</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- 3. HTML do Modal diretamente na página -->
+<div id="deleteConfirmationModal" class="modal-container" style="display: none;">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Confirmar Exclusão</h3>
+            <button type="button" class="close-modal-btn">&times;</button>
+        </div>
+        <div class="modal-body">
+            <!-- Texto adaptado para "profissional" -->
+            <p>Você tem certeza que deseja excluir permanentemente o profissional <strong id="professionalNameToDelete"></strong>?</p>
+            <p><strong>Esta ação não pode ser desfeita.</strong></p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary close-modal-btn">Cancelar</button>
+            <button type="button" id="confirmDeleteBtn" class="btn btn-danger">Sim, Excluir</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // 4. Script adaptado para Profissionais
+        document.addEventListener('DOMContentLoaded', function () {
+            const modal = document.getElementById('deleteConfirmationModal');
+            if (!modal) return;
+
+            const confirmBtn = document.getElementById('confirmDeleteBtn');
+            const professionalNameToDelete = document.getElementById('professionalNameToDelete');
+            const closeButtons = document.querySelectorAll('.close-modal-btn');
+            let professionalIdToDelete = null;
+
+            function openModal(id, name) {
+                professionalIdToDelete = id;
+                professionalNameToDelete.textContent = name;
+                modal.style.display = 'flex';
+            }
+
+            function closeModal() {
+                professionalIdToDelete = null;
+                modal.style.display = 'none';
+            }
+
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    openModal(this.getAttribute('data-id'), this.getAttribute('data-name'));
+                });
+            });
+
+            closeButtons.forEach(button => button.addEventListener('click', closeModal));
+
+            confirmBtn.addEventListener('click', function () {
+                if (!professionalIdToDelete) return;
+
+                const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+                // URL correta para o controller de Profissionais
+                fetch(`/Profissionais/Delete/${professionalIdToDelete}`, {
+                    method: 'POST',
+                    headers: {
+                        'RequestVerificationToken': token
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // ID da linha correto
+                        document.getElementById(`profissional-row-${professionalIdToDelete}`)?.remove();
+                        closeModal();
+                    } else {
+                        alert('Ocorreu um erro ao tentar excluir o profissional.');
+                        closeModal();
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,74 @@
+﻿@model Hospisim.Api.Controllers.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Dashboard Principal";
+}
+
+<div class="container dashboard-container">
+    <div class="dashboard-header">
+        <h1>Bem-vindo ao Hospisim</h1>
+        <p class="lead">Seu sistema de gerenciamento hospitalar centralizado.</p>
+    </div>
+
+    <div class="dashboard-stats">
+        <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-info">
+                <span class="stat-number">@Model.TotalPacientes</span>
+                <span class="stat-label">Pacientes Cadastrados</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">⚕️</div>
+            <div class="stat-info">
+                <span class="stat-number">@Model.TotalProfissionaisAtivos</span>
+                <span class="stat-label">Profissionais Ativos</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">📅</div>
+            <div class="stat-info">
+                <span class="stat-number">@Model.AtendimentosHoje</span>
+                <span class="stat-label">Atendimentos Hoje</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">🛏️</div>
+            <div class="stat-info">
+                <span class="stat-number">@Model.InternacoesAtivas</span>
+                <span class="stat-label">Internações Ativas</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-nav">
+        <a asp-controller="Pacientes" asp-action="Index" class="nav-card">
+            <div class="nav-icon">🧑‍🤝‍🧑</div>
+            <div class="nav-text">
+                <h3>Gerenciar Pacientes</h3>
+                <p>Acesse a lista, cadastre e edite os dados dos pacientes.</p>
+            </div>
+        </a>
+        <a asp-controller="ProfissionalSaudes" asp-action="Index" class="nav-card">
+            <div class="nav-icon">👨‍⚕️</div>
+            <div class="nav-text">
+                <h3>Gerenciar Profissionais</h3>
+                <p>Controle a equipe de saúde, especialidades e status.</p>
+            </div>
+        </a>
+        <a href="#" class="nav-card disabled">
+            <div class="nav-icon">📋</div>
+            <div class="nav-text">
+                <h3>Agendamentos</h3>
+                <p>Visualize e gerencie a agenda de consultas e procedimentos.</p>
+            </div>
+        </a>
+        <a href="#" class="nav-card disabled">
+            <div class="nav-icon">🏥</div>
+            <div class="nav-text">
+                <h3>Relatórios</h3>
+                <p>Gere relatórios e visualize dados consolidados do sistema.</p>
+            </div>
+        </a>
+    </div>
+</div>

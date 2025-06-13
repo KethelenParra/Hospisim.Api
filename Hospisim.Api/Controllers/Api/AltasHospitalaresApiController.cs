@@ -85,7 +85,6 @@ namespace Hospisim.Api.Controllers.Api
                 await transaction.CommitAsync();
 
                 var resultadoDaAcao = await GetById(alta.Id);
-
                 if (resultadoDaAcao is OkObjectResult okResult)
                 {
                     return CreatedAtAction(nameof(GetById), new { id = alta.Id }, okResult.Value);

@@ -1,0 +1,98 @@
+﻿@model Hospisim.Api.Models.ProfissionalSaude
+
+@{
+    ViewData["Title"] = "Editar Profissional";
+}
+
+<div class="container form-container">
+    <div class="form-header">
+        <h1>@ViewData["Title"]</h1>
+    </div>
+
+    <form asp-action="Edit">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+        <input type="hidden" asp-for="Id" />
+
+        <div class="form-grid">
+            <div class="form-group grid-col-span-2">
+                <label asp-for="NomeCompleto" class="control-label"></label>
+                <input asp-for="NomeCompleto" class="form-control" />
+                <span asp-validation-for="NomeCompleto" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CPF" class="control-label"></label>
+                <input asp-for="CPF" class="form-control" readonly /> <!-- CPF não deve ser editável -->
+                <span asp-validation-for="CPF" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <!-- Resto do formulário igual ao Create.cshtml, apenas ajuste o botão no final -->
+
+            <div class="form-group">
+                <label asp-for="Telefone" class="control-label"></label>
+                <input asp-for="Telefone" class="form-control" />
+                <span asp-validation-for="Telefone" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="EspecialidadeId" class="control-label"></label>
+                <select asp-for="EspecialidadeId" class="form-control" asp-items="ViewBag.EspecialidadeId"></select>
+                <span asp-validation-for="EspecialidadeId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="TipoRegistro" class="control-label"></label>
+                <select asp-for="TipoRegistro" class="form-control" asp-items="ViewBag.TipoRegistroList"></select>
+                <span asp-validation-for="TipoRegistro" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="RegistroConselho" class="control-label"></label>
+                <input asp-for="RegistroConselho" class="form-control" />
+                <span asp-validation-for="RegistroConselho" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DataAdmissao" class="control-label"></label>
+                <input asp-for="DataAdmissao" type="date" class="form-control" readonly /> <!-- Data de Admissão não deve ser editável -->
+                <span asp-validation-for="DataAdmissao" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Turno" class="control-label"></label>
+                <select asp-for="Turno" class="form-control" asp-items="ViewBag.TurnoList"></select>
+                <span asp-validation-for="Turno" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CargaHorariaSemanal" class="control-label"></label>
+                <input asp-for="CargaHorariaSemanal" class="form-control" />
+                <span asp-validation-for="CargaHorariaSemanal" class="text-danger"></span>
+            </div>
+
+            <div class="form-group form-check grid-col-span-2">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Ativo" /> @Html.DisplayNameFor(model => model.Ativo)
+                </label>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <a asp-action="Index" class="btn btn-secondary">⬅️ Voltar</a>
+            <input type="submit" value="Salvar Alterações" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

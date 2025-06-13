@@ -458,3 +458,135 @@ td {
         transform: translateY(0);
     }
 }
+
+/* =====================
+   Dashboard Styles
+   ===================== */
+
+.dashboard-container {
+    max-width: 1200px;
+}
+
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+    .dashboard-header h1 {
+        color: #1f3a57;
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .dashboard-header .lead {
+        font-size: 1.2rem;
+        color: #5a7184;
+    }
+
+/* Grid para os cards de estatísticas */
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.stat-card {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+
+.stat-icon {
+    font-size: 2.5rem;
+    background-color: #eaf0f6;
+    padding: 0.8rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1f3a57;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #5a7184;
+}
+
+/* Grid para os cards de navegação */
+.dashboard-nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.nav-card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+    .nav-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        color: #3498db;
+    }
+
+    .nav-card.disabled {
+        background-color: #f8f9fa;
+        color: #adb5bd;
+        cursor: not-allowed;
+    }
+
+        .nav-card.disabled:hover {
+            transform: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+.nav-icon {
+    font-size: 3rem;
+}
+
+.nav-text h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.3rem;
+}
+
+.nav-text p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}

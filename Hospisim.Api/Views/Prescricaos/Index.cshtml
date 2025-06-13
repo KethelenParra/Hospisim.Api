@@ -1,0 +1,95 @@
+﻿@model IEnumerable<Hospisim.Api.Models.Prescricao>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Atendimento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Profissional)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Medicamento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Dosagem)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Frequencia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ViaAdministracao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataInicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataFim)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Observacoes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StatusPrescricao)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReacoesAdversas)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Atendimento.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Profissional.CPF)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Medicamento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dosagem)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Frequencia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ViaAdministracao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataInicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataFim)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observacoes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StatusPrescricao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReacoesAdversas)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

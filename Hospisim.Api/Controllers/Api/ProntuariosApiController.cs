@@ -84,7 +84,7 @@ namespace Hospisim.Api.Controllers.Api
             {
                 Id = Guid.NewGuid(),
                 PacienteId = dto.PacienteId,
-                Numero = $"PRT-{new Random().Next(10000, 99999)}", // Lógica simples de geração
+                Numero = $"PRT-{new Random().Next(10000, 99999)}", 
                 DataAbertura = DateTime.UtcNow,
                 Observacoes = dto.Observacoes
             };

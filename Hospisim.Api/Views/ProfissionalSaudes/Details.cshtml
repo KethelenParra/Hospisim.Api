@@ -1,0 +1,36 @@
+﻿@model Hospisim.Api.Models.ProfissionalSaude
+@using Hospisim.Api.Extensions
+
+@{
+    ViewData["Title"] = "Detalhes do Profissional";
+}
+
+<div class="container details-page">
+    <div class="actions-header">
+        <h1>@ViewData["Title"]</h1>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">✏️ Editar</a>
+    </div>
+
+    <div class="details-card">
+        <h4>Dados Pessoais e Contato</h4>
+        <div class="label">Nome Completo</div><div class="value">@Model.NomeCompleto</div>
+        <div class="label">CPF</div><div class="value">@Model.CPF.ToCPFFormat()</div>
+        <div class="label">E-mail</div><div class="value"><a href="mailto:@Model.Email">@Model.Email</a></div>
+        <div class="label">Telefone</div><div class="value">@Model.Telefone</div>
+    </div>
+
+    <div class="details-card">
+        <h4>Informações Profissionais</h4>
+        <div class="label">Especialidade</div><div class="value">@Model.Especialidade.Nome</div>
+        <div class="label">Tipo de Registro</div><div class="value">@Model.TipoRegistro.GetDisplayName()</div>
+        <div class="label">Registro do Conselho</div><div class="value">@Model.RegistroConselho</div>
+        <div class="label">Data de Admissão</div><div class="value">@Model.DataAdmissao.ToString("dd/MM/yyyy")</div>
+        <div class="label">Turno</div><div class="value">@Model.Turno.GetDisplayName()</div>
+        <div class="label">Carga Horária</div><div class="value">@Model.CargaHorariaSemanal horas/semana</div>
+        <div class="label">Status</div><div class="value">@(Model.Ativo ? "Ativo" : "Inativo")</div>
+    </div>
+
+    <div class="actions-footer-details">
+        <a asp-action="Index" class="btn btn-secondary">⬅️ Voltar para a Lista</a>
+    </div>
+</div>
